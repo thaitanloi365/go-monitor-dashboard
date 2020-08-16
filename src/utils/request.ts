@@ -2,6 +2,8 @@ import router from 'umi/router';
 import axios, { AxiosError, AxiosRequestConfig, AxiosInstance } from 'axios';
 import { CANCEL_REQUEST_MESSAGE } from './constants';
 
+export { Method } from 'axios';
+
 const codeMessage = {
   400: 'There was an error in the request, and the server did not create or modify data.',
   401: 'The user does not have permissions.',
@@ -27,6 +29,7 @@ const request = (option: IRequestOption) => {
 
   return instance({
     ...other,
+    method,
     data: method === 'GET' ? null : data,
     params: method === 'GET' ? data : null,
     cancelToken: new CancelToken(cancel => {

@@ -1,21 +1,22 @@
-import { MenuDataItem } from '@ant-design/pro-layout';
-import { FormComponentProps } from 'antd/lib/form/Form';
-import { Effect } from 'dva';
-import { Effect, Subscription } from 'dva';
-import { IAppModelState } from 'models/app';
-import { IBusinessDetailsModelState } from 'pages/businesses/$id/menu/model';
-import { IDashboardModelState } from 'pages/dashboard/model';
-import { IFoodDetailsModelState } from 'pages/food/$id/model';
-import { IFoodModelState } from 'pages/food/model';
-import { ILoginModelType } from 'pages/login/model';
-import { IPostDetailModelState } from 'pages/posts/$id/model';
-import { IPostModelState } from 'pages/posts/model';
-import { IUserDetailsModelState } from 'pages/users/$id/model';
-import { IUserModelState } from 'pages/users/model';
-import { Reducer } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import {MenuDataItem} from '@ant-design/pro-layout';
+import {FormComponentProps} from 'antd/lib/form/Form';
+import {Effect} from 'dva';
+import {Effect, Subscription} from 'dva';
+import {IAppModelState} from 'models/app';
+import {IBusinessDetailsModelState} from 'pages/businesses/$id/menu/model';
+import {IContainerDetailModelState} from 'pages/containers/$id/model';
+import {IDashboardModelState} from 'pages/containers/model';
+import {IFoodDetailsModelState} from 'pages/food/$id/model';
+import {IFoodModelState} from 'pages/food/model';
+import {ILoginModelType} from 'pages/login/model';
+import {IPostDetailModelState} from 'pages/posts/$id/model';
+import {IPostModelState} from 'pages/posts/model';
+import {IUserDetailsModelState} from 'pages/users/$id/model';
+import {IUserModelState} from 'pages/users/model';
+import {Reducer} from 'react';
+import {RouteComponentProps} from 'react-router-dom';
 
-export type ITheme = 'dark' | 'light';
+export type ITheme = 'dark'|'light';
 export type IEffect = Effect;
 export type IReducer<T> = Reducer<T, any>;
 export type ISubscription = Subscription;
@@ -26,14 +27,14 @@ export interface IFormProps extends FormComponentProps {}
 export interface IModel<T> {
   namespace?: string;
   state?: T;
-  effects?: { [key: string]: Effect };
-  reducers?: { [key: string]: Reducer<T> };
-  subscriptions?: { [key: string]: Subscription };
+  effects?: {[key: string]: Effect};
+  reducers?: {[key: string]: Reducer<T>};
+  subscriptions?: {[key: string]: Subscription};
 }
 
 export interface ILoadingState {
   global: boolean;
-  effects: { [key: string]: boolean | undefined };
+  effects: {[key: string]: boolean|undefined};
   models: {
     global?: boolean;
     menu?: boolean;
@@ -46,6 +47,7 @@ export interface ILoadingState {
 export interface IConnectState extends Partial<IConnectProps> {
   app?: IAppModelState;
   dashboard?: IDashboardModelState;
+  containerDetail?: IContainerDetailModelState;
   loading?: ILoadingState;
   login?: ILoginModelType;
 }
@@ -55,24 +57,23 @@ export interface Route extends MenuDataItem {
 }
 
 export interface IUpdateModelBase<T extends any> extends IModel<T> {
-  reducers: { updateState: Reducer<T> };
+  reducers: {updateState: Reducer<T>};
 }
 
 export interface IPagingModelBase<T extends any> extends IModel<T> {
   state: {
     list: T[];
     pagination?: {
-      showSizeChanger: boolean;
-      showQuickJumper: boolean;
-      current: number;
+      showSizeChanger: boolean; showQuickJumper: boolean; current: number;
       total: number;
       pageSize: number;
     };
   };
-  reducers: { updateState?: Reducer<IUserModelState> };
+  reducers: {updateState?: Reducer<IUserModelState>};
 }
 
-export interface IConnectProps<T = {}> extends Partial<RouteComponentProps<Route, T>> {
+export interface IConnectProps<T = {}> extends
+    Partial<RouteComponentProps<Route, T>> {
   dispatch?<K = any>(action: AnyAction): K;
 }
 

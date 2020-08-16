@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import { IConnectState } from 'types';
 
 import styles from './index.less';
-import ServiceCard from './components/ServiceCard';
+import ContainerCard from './components/ContainerCard';
 
 @connect<IConnectState>(({ app, dashboard, loading }: IConnectState) => ({ app, dashboard, loading }))
 export default class Dashboard extends React.PureComponent<IConnectState> {
@@ -19,7 +19,7 @@ export default class Dashboard extends React.PureComponent<IConnectState> {
       >
         <Row gutter={24}>
           {listContainer?.map((item, index) => (
-            <ServiceCard item={item} key={index} />
+            <ContainerCard item={item} key={index} />
           ))}
         </Row>
       </Page>

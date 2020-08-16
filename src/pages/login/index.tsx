@@ -30,13 +30,7 @@ class Login extends React.PureComponent<ILoginProps> {
 
     return (
       <Row>
-        <Col
-          className={styles.container}
-          xl={{ span: 6, offset: 9 }}
-          lg={{ span: 10, offset: 7 }}
-          span={22}
-          offset={1}
-        >
+        <Col className={styles.container} xl={{ span: 6, offset: 9 }} lg={{ span: 10, offset: 7 }} span={22} offset={1}>
           <div className={styles.form}>
             <div className={styles.logo}>
               <img alt="logo" src={config.logoPath} />
@@ -44,31 +38,19 @@ class Login extends React.PureComponent<ILoginProps> {
             </div>
             <Form>
               <FormItem hasFeedback={true}>
-                {getFieldDecorator('email', {
-                  rules: [
-                    {
-                      required: true,
-                    },
-                  ],
-                })(<Input onPressEnter={this.handleOk} placeholder="Email" />)}
+                {getFieldDecorator('username', {
+                  rules: [{ required: true }],
+                })(<Input onPressEnter={this.handleOk} placeholder="Username" />)}
               </FormItem>
               <FormItem hasFeedback={true}>
                 {getFieldDecorator('password', {
-                  rules: [
-                    {
-                      required: true,
-                    },
-                  ],
+                  rules: [{ required: true }],
                 })(<Input type="password" onPressEnter={this.handleOk} placeholder="Password" />)}
               </FormItem>
               <Row>
-                <Button
-                  type="primary"
-                  onClick={this.handleOk}
-                  loading={loading.effects['login/login']}
-                >
+                <Button type="primary" onClick={this.handleOk} loading={loading.effects['login/login']}>
                   Sign in
-              </Button>
+                </Button>
               </Row>
             </Form>
           </div>

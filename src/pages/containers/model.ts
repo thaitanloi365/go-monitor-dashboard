@@ -1,19 +1,19 @@
-import { getListDockerContainer } from 'services/api/docker';
 import { IEffect, IModel } from 'types';
 import { pathMatchRegexp } from 'utils';
 import { withExtendModel } from 'utils/models';
+import { getListDockerContainer } from 'services/api/docker';
 
 export interface IDashboardModelState {
   listContainer: Container[];
 }
 
 export interface IDrinkModelType extends IModel<IDashboardModelState> {
-  namespace: 'dashboard';
+  namespace: 'containers';
   effects: { listContainer: IEffect };
 }
 
 const DashboardModel: IDrinkModelType = {
-  namespace: 'dashboard',
+  namespace: 'containers',
   state: {
     listContainer: [],
   },

@@ -30,9 +30,3 @@ declare module 'react-redux' {
   // tslint:disable-next-line
   interface Connect extends IConnectProps {}
 }
-
-declare module '*.css';
-declare module '*.png';
-declare module '*.less';
-declare module 'enquire-js';
-declare module 'dva-model-extend';

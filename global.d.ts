@@ -3,3 +3,8 @@ declare var API_PREFIX: string;
 declare var VERSION: string;
 declare var LAST_UPDATE: number;
 declare var ENV: string;
+declare module '*.css';
+declare module '*.png';
+declare module '*.less';
+declare module 'enquire-js';
+declare module 'dva-model-extend';

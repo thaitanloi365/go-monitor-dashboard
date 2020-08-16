@@ -1,13 +1,13 @@
-import store from 'store';
-import config from 'utils/config';
 import { stringify } from 'qs';
-import { IConnectState, IMenuItem, ITheme, IModel, IReducer, ISubscription, IEffect } from 'types';
+import { logout } from 'services/api/auth';
+import store from 'store';
+import { IConnectState, IEffect, IMenuItem, IModel, IReducer, ISubscription, ITheme } from 'types';
 import { INotificationItem } from 'types/app';
+import router from 'umi/router';
 import { parseFromUrl } from 'utils';
 import { queryLayout } from 'utils';
+import config from 'utils/config';
 import { CANCEL_REQUEST_MESSAGE } from 'utils/constants';
-import router from 'umi/router';
-import APIFunction from 'services/api';
 
 export interface IAppModelState {
   routeList: IMenuItem[];
@@ -32,11 +32,7 @@ export interface IAppModelType extends IModel<IAppModelState> {
     setupHistory: ISubscription;
     setupRequestCancel: ISubscription;
   };
-  effects: {
-    sessionTimeout: IEffect;
-    query: IEffect;
-    logout: IEffect;
-  };
+  effects: { sessionTimeout: IEffect; query: IEffect; logout: IEffect };
 }
 
 const AppModel: IAppModelType = {
@@ -102,7 +98,6 @@ const AppModel: IAppModelType = {
       const token = store.get('token', '');
       const { locationPathname } = yield select((state: IConnectState) => state.app);
       const layout = queryLayout(config.layouts, window.location.pathname);
-      console.log('token here: ', token);
       if (token != '') {
         yield put({
           type: 'getConstants',
@@ -137,7 +132,7 @@ const AppModel: IAppModelType = {
     },
 
     *logout({ payload }, { call, select }) {
-      const data = yield call(APIFunction.logout);
+      const data = yield call(logout);
       const { locationPathname } = yield select((state: IConnectState) => state.app);
       if (data.success) {
         store.clearAll();
@@ -151,7 +146,6 @@ const AppModel: IAppModelType = {
         throw data;
       }
     },
-
     *sessionTimeout({ payload }, { call, select }) {
       const { locationPathname } = yield select((state: IConnectState) => state.app);
       store.clearAll();

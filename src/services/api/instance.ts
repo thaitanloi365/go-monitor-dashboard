@@ -1,13 +1,28 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 import store from 'store';
 import { config } from 'utils';
+import req, { Method } from 'utils/request';
+
+interface IRequestOption {
+  method: Method;
+  data?: any;
+}
+
+export function request(url: string, option?: IRequestOption) {
+  return req({
+    url,
+    instance,
+    ...(option ?? {}),
+    baseURL: `${config.apiBaseURL}${config.apiPrefix}`,
+  });
+}
 
 export const instance = Axios.create({
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
-  baseURL: config.apiBaseURL,
+  baseURL: `${config.apiBaseURL}${config.apiPrefix}`,
 });
 
 function getUrl(cfg: AxiosRequestConfig) {
@@ -37,7 +52,7 @@ instance.interceptors.request.use(
   },
   function(error) {
     return Promise.reject(error);
-  },
+  }
 );
 
 instance.interceptors.response.use(
@@ -62,5 +77,5 @@ instance.interceptors.response.use(
       console.groupEnd();
     }
     return Promise.reject(error);
-  },
+  }
 );
