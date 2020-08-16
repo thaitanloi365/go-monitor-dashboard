@@ -8,3 +8,4 @@ declare module '*.png';
 declare module '*.less';
 declare module 'enquire-js';
 declare module 'dva-model-extend';
+declare module 'ansi-to-html';

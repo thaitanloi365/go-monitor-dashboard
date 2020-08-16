@@ -4,7 +4,7 @@ import {Effect} from 'dva';
 import {Effect, Subscription} from 'dva';
 import {IAppModelState} from 'models/app';
 import {IBusinessDetailsModelState} from 'pages/businesses/$id/menu/model';
-import {IContainerDetailModelState} from 'pages/containers/$id/model';
+import {IContainerDetailModelState} from 'pages/containers/containers/model';
 import {IDashboardModelState} from 'pages/containers/model';
 import {IFoodDetailsModelState} from 'pages/food/$id/model';
 import {IFoodModelState} from 'pages/food/model';
@@ -105,6 +105,7 @@ export interface IPaging<T> {
 export interface IMenuItem {
   id: string;
   icon?: string;
+  faIcon?: string;
   name?: string;
   route: string;
   breadcrumbParentId?: string;

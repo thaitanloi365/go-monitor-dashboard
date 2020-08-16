@@ -38,9 +38,9 @@ class Login extends React.PureComponent<ILoginProps> {
             </div>
             <Form>
               <FormItem hasFeedback={true}>
-                {getFieldDecorator('username', {
+                {getFieldDecorator('email', {
                   rules: [{ required: true }],
-                })(<Input onPressEnter={this.handleOk} placeholder="Username" />)}
+                })(<Input onPressEnter={this.handleOk} placeholder="Email" />)}
               </FormItem>
               <FormItem hasFeedback={true}>
                 {getFieldDecorator('password', {

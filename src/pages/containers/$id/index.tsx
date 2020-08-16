@@ -1,10 +1,12 @@
 import React from 'react';
+import Ansi from 'ansi-to-react';
+
 import Highlighter from 'react-highlight-words';
 import { Button, Card, Col, Form, Row, Descriptions, Tooltip, Spin, List, Typography } from 'antd';
 import { Page } from 'components';
 import { connect } from 'dva';
 import { IConnectState } from 'types';
-import { Color } from 'utils';
+import { Color, colorize } from 'utils';
 import Filter from './components/Filter';
 import styles from './index.less';
 
@@ -30,15 +32,10 @@ export default class ContainerDetail extends React.PureComponent<IConnectState> 
     const { containerDetail } = this.props;
     const searchWords = (containerDetail?.searchKeyword || '').split(' ');
     return (
-      <div>
-        {containerDetail?.logs?.map(item => (
+      <div className={styles.logContainer}>
+        {containerDetail?.logs?.map((item: any) => (
           <div>
-            <Highlighter
-              highlightClassName="YourHighlightClass"
-              searchWords={searchWords}
-              autoEscape={true}
-              textToHighlight={item}
-            />
+            <Ansi useClasses>{item}</Ansi>
           </div>
         ))}
       </div>

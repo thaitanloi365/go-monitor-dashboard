@@ -1,13 +1,13 @@
-import { stringify } from 'qs';
-import { logout } from 'services/api/auth';
+import {stringify} from 'qs';
+import {logout} from 'services/api/user';
 import store from 'store';
-import { IConnectState, IEffect, IMenuItem, IModel, IReducer, ISubscription, ITheme } from 'types';
-import { INotificationItem } from 'types/app';
+import {IConnectState, IEffect, IMenuItem, IModel, IReducer, ISubscription, ITheme} from 'types';
+import {INotificationItem} from 'types/app';
 import router from 'umi/router';
-import { parseFromUrl } from 'utils';
-import { queryLayout } from 'utils';
+import {parseFromUrl} from 'utils';
+import {queryLayout} from 'utils';
 import config from 'utils/config';
-import { CANCEL_REQUEST_MESSAGE } from 'utils/constants';
+import {CANCEL_REQUEST_MESSAGE} from 'utils/constants';
 
 export interface IAppModelState {
   routeList: IMenuItem[];
@@ -28,11 +28,10 @@ export interface IAppModelType extends IModel<IAppModelState> {
   };
 
   subscriptions: {
-    setup: ISubscription;
-    setupHistory: ISubscription;
+    setup: ISubscription; setupHistory: ISubscription;
     setupRequestCancel: ISubscription;
   };
-  effects: { sessionTimeout: IEffect; query: IEffect; logout: IEffect };
+  effects: {sessionTimeout: IEffect; query: IEffect; logout: IEffect};
 }
 
 const AppModel: IAppModelType = {
@@ -62,10 +61,10 @@ const AppModel: IAppModelType = {
     ],
   },
   subscriptions: {
-    setup({ dispatch }) {
-      dispatch({ type: 'query' });
+    setup({dispatch}) {
+      dispatch({type: 'query'});
     },
-    setupHistory({ dispatch, history }) {
+    setupHistory({dispatch, history}) {
       history.listen(location => {
         dispatch({
           type: 'updateState',
@@ -78,10 +77,10 @@ const AppModel: IAppModelType = {
       });
     },
 
-    setupRequestCancel({ history }) {
+    setupRequestCancel({history}) {
       history.listen(() => {
         // @ts-ignore
-        const { cancelRequest = new Map() } = window;
+        const {cancelRequest = new Map()} = window;
 
         // @ts-ignore
         cancelRequest.forEach((value, key) => {
@@ -94,84 +93,93 @@ const AppModel: IAppModelType = {
     },
   },
   effects: {
-    *query({ payload }, { call, put, select }) {
-      const token = store.get('token', '');
-      const { locationPathname } = yield select((state: IConnectState) => state.app);
-      const layout = queryLayout(config.layouts, window.location.pathname);
-      if (token != '') {
-        yield put({
-          type: 'getConstants',
-        });
-      }
+    *
+        query({payload}, {call, put, select}) {
+          const token = store.get('token', '');
+          const {locationPathname} =
+              yield select((state: IConnectState) => state.app);
+          const layout = queryLayout(config.layouts, window.location.pathname);
+          if (token != '') {
+            yield put({
+              type: 'getConstants',
+            });
+          }
 
-      if (layout !== 'public') {
-        if (token === '') {
+          if (layout !== 'public') {
+            if (token === '') {
+              router.push({
+                pathname: '/login',
+                search: stringify({
+                  from: locationPathname === '' ? location.pathname :
+                                                  locationPathname,
+                }),
+              });
+            } else {
+              var value = parseFromUrl(location?.search);
+              if (value?.from && value?.from !== '/') {
+                router.push(value?.from);
+              } else {
+                router.push('/dashboard');
+              }
+            }
+          } else {
+            router.push({
+              pathname: '/login',
+              search: stringify({
+                from: locationPathname === '' ? location.pathname :
+                                                locationPathname,
+              }),
+            });
+          }
+        },
+
+    *
+        logout({payload}, {call, select}) {
+          const data = yield call(logout);
+          const {locationPathname} =
+              yield select((state: IConnectState) => state.app);
+          if (data.success) {
+            store.clearAll();
+            router.push({
+              pathname: '/login',
+              search: stringify({
+                from: locationPathname === '' ? location.pathname :
+                                                locationPathname,
+              }),
+            });
+          } else {
+            throw data;
+          }
+        },
+    *
+        sessionTimeout({payload}, {call, select}) {
+          const {locationPathname} =
+              yield select((state: IConnectState) => state.app);
+          store.clearAll();
           router.push({
             pathname: '/login',
             search: stringify({
-              from: locationPathname === '' ? location.pathname : locationPathname,
+              from: locationPathname === '' ? location.pathname :
+                                              locationPathname,
             }),
           });
-          return;
-        }
-        var value = parseFromUrl(location?.search);
-        if (value?.from) {
-          router.push(value?.from);
-          return;
-        }
-
-        return;
-      }
-      router.push({
-        pathname: '/login',
-        search: stringify({
-          from: locationPathname === '' ? location.pathname : locationPathname,
-        }),
-      });
-      return;
-    },
-
-    *logout({ payload }, { call, select }) {
-      const data = yield call(logout);
-      const { locationPathname } = yield select((state: IConnectState) => state.app);
-      if (data.success) {
-        store.clearAll();
-        router.push({
-          pathname: '/login',
-          search: stringify({
-            from: locationPathname === '' ? location.pathname : locationPathname,
-          }),
-        });
-      } else {
-        throw data;
-      }
-    },
-    *sessionTimeout({ payload }, { call, select }) {
-      const { locationPathname } = yield select((state: IConnectState) => state.app);
-      store.clearAll();
-      router.push({
-        pathname: '/login',
-        search: stringify({
-          from: locationPathname === '' ? location.pathname : locationPathname,
-        }),
-      });
-    },
+        },
   },
   reducers: {
-    updateState(state, { payload }) {
+    updateState(state, {payload}) {
       return {
         ...state,
         ...payload,
       };
     },
 
-    handleThemeChange(state, { payload }) {
+    handleThemeChange(state, {payload}) {
       store.set('theme', payload);
       state.theme = payload;
       return state;
     },
 
-    handleCollapseChange(state, { payload }) {
+    handleCollapseChange(state, {payload}) {
       store.set('collapsed', payload);
       state.collapsed = payload;
       return state;

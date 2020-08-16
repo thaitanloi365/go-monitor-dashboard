@@ -4,6 +4,7 @@ import { formatDate } from 'utils/date';
 import { Ellipsis } from 'ant-design-pro';
 import { DropOption } from 'components';
 import { router } from 'utils';
+import styles from './ContainerCard.less';
 interface IProps {
   item: Container;
 }
@@ -27,9 +28,12 @@ const ContainerCard: React.SFC<IProps> = props => {
 
   const [key, setKey] = useState('container');
 
-  const handleClick = (event: any) => {
-    event.preventDefault();
-    router.push(`/containers/${Id}`);
+  const handleMenuClick = (item: any) => {
+    switch (item.key) {
+      case 'view_logs':
+        router.push(`/containers/${Id}`);
+        break;
+    }
   };
   const tabList = [
     {
@@ -141,10 +145,10 @@ const ContainerCard: React.SFC<IProps> = props => {
           <React.Fragment key={index}>
             {Object.keys(port).map((key, index) => (
               <Row style={{ marginBottom: '5px' }} type="flex" key={index}>
-                <Col xs={4} lg={2}>
+                <Col xs={8} lg={2}>
                   {key}
                 </Col>
-                <Col xs={20} lg={22}>
+                <Col xs={16} lg={22}>
                   <Ellipsis>{port[key]}</Ellipsis>
                 </Col>
               </Row>
@@ -180,12 +184,12 @@ const ContainerCard: React.SFC<IProps> = props => {
   const renderHeader = () => {
     return (
       <Row>
-        <Col sm={12} lg={7}>
+        <Col className={styles.margin} sm={6} md={5} lg={7}>
           {containerName}
         </Col>
-        <Col sm={12} lg={{ span: 16, offset: 1 }}>
-          <Row className="mt-3" type="flex" justify="space-between" align="top">
-            <Col style={{ textAlign: 'center' }} lg={{ span: 4, offset: 12 }} sm={8}>
+        <Col sm={{ span: 17, offset: 1 }} md={{ span: 18, offset: 1 }} lg={{ span: 16, offset: 1 }}>
+          <Row className={styles.row} type="flex" align="top">
+            <Col style={{ textAlign: 'center' }}>
               <Tag color={statusColor}>{State.toUpperCase()}</Tag>
               <h5>
                 <Ellipsis style={{ marginTop: '7px' }} tooltip>
@@ -193,14 +197,14 @@ const ContainerCard: React.SFC<IProps> = props => {
                 </Ellipsis>
               </h5>
             </Col>
-            <Col style={{ textAlign: 'right' }} lg={4} sm={8}>
+            <Col className={styles.middle}>
               <h4>CREATED AT</h4>
               <h5>
                 <Ellipsis tooltip>{createdAt}</Ellipsis>
               </h5>
             </Col>
-            <Col style={{ textAlign: 'right' }} lg={4} sm={8}>
-              <DropOption menuOptions={[{ key: 'view_logs', name: 'View Logs' }]} />
+            <Col style={{ textAlign: 'right' }}>
+              <DropOption onMenuClick={handleMenuClick} menuOptions={[{ key: 'view_logs', name: 'View Logs' }]} />
             </Col>
           </Row>
         </Col>
@@ -208,13 +212,7 @@ const ContainerCard: React.SFC<IProps> = props => {
     );
   };
   return (
-    <Card
-      onClick={handleClick}
-      title={renderHeader()}
-      tabList={tabList}
-      activeTabKey={key}
-      onTabChange={key => setKey(key)}
-    >
+    <Card title={renderHeader()} tabList={tabList} activeTabKey={key} onTabChange={key => setKey(key)}>
       {tabContentList[key]}
     </Card>
   );

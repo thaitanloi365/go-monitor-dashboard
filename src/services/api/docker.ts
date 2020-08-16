@@ -1,18 +1,19 @@
-import { request } from './instance';
-import { config } from 'utils';
+import {config} from 'utils';
+
+import {request} from './instance';
 
 export function getListDockerContainer() {
-  return request('/docker/container/list', {
+  return request('/container/list', {
     method: 'GET',
   });
 }
 
 export function getDockerContainerDetail(id: string) {
-  return request(`/docker/container/${id}`, {
+  return request(`/container/${id}`, {
     method: 'GET',
   });
 }
 
 export function getStreamDockerLogsURL(id: string) {
-  return `${config.apiBaseURL}${config.apiPrefix}/docker/container/${id}/stream_logs`;
+  return `${config.apiBaseURL}${config.apiPrefix}/container/${id}/stream_logs`;
 }

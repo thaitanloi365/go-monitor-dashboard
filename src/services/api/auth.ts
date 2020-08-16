@@ -1,14 +1,8 @@
-import { request } from './instance';
+import {request} from './instance';
 
 export function login(data: any) {
   return request('/login', {
-    method: 'GET',
+    method: 'POST',
     data,
-  });
-}
-
-export function logout() {
-  return request('/logout', {
-    method: 'DELETE',
   });
 }

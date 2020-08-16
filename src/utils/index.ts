@@ -1,13 +1,17 @@
-import _ from "lodash";
-import pathToRegexp from "path-to-regexp";
-import { IMenuItem } from "types";
-import umiRouter from "umi/router";
-import { parse } from "qs";
+import _ from 'lodash';
+import pathToRegexp from 'path-to-regexp';
+import { IMenuItem } from 'types';
+import umiRouter from 'umi/router';
+import AnsiConvertor from 'ansi-to-html';
+
+import { parse } from 'qs';
+
+const ansiConvertor = new AnsiConvertor({ escapeXML: true });
 
 // export const { defaultLanguage } = i18n
 // export const languages = i18n.languages.map(item => item.key)
 export const languages: any[] = [];
-export const defaultLanguage = "en";
+export const defaultLanguage = 'en';
 
 /**
  * Query objects that specify keys and values in an array where all values are objects.
@@ -20,7 +24,7 @@ export function queryArray(array: any[], key: string, value: string) {
   if (!Array.isArray(array)) {
     return;
   }
-  return array.find((_) => _[key] === value);
+  return array.find(_ => _[key] === value);
 }
 
 /**
@@ -31,7 +35,7 @@ export function queryArray(array: any[], key: string, value: string) {
  * @param   {string}    children  The alias of children of the object in the array.
  * @return  {array}    Return a tree-structured array.
  */
-export function arrayToTree(array: any[], id = "id", parentId = "pid", children = "children") {
+export function arrayToTree(array: any[], id = 'id', parentId = 'pid', children = 'children') {
   const result: any[] = [];
   const hash = {};
   const data = _.cloneDeep(array);
@@ -40,7 +44,7 @@ export function arrayToTree(array: any[], id = "id", parentId = "pid", children 
     hash[data[index][id]] = data[index];
   });
 
-  data.forEach((item) => {
+  data.forEach(item => {
     const hashParent = hash[item[parentId]];
     if (hashParent) {
       !hashParent[children] && (hashParent[children] = []);
@@ -63,10 +67,10 @@ export function pathMatchRegexp(regexp: pathToRegexp.Path, pathname: string) {
   return pathToRegexp(regexp).exec(pathname);
 }
 
-export function queryPathKeys(array: string[], current: string, parentId: string, id = "id") {
+export function queryPathKeys(array: string[], current: string, parentId: string, id = 'id') {
   const result = [current];
   const hashMap = new Map();
-  array.forEach((item) => hashMap.set(item[id], item));
+  array.forEach(item => hashMap.set(item[id], item));
 
   const getPath = (current: string) => {
     const currentParentId = hashMap.get(current)[parentId];
@@ -88,15 +92,10 @@ export function queryPathKeys(array: string[], current: string, parentId: string
  * @param   {string}    id        The alias of the unique ID of the object in the array.
  * @return  {array}    Return a key array.
  */
-export function queryAncestors(
-  array: IMenuItem[],
-  current: IMenuItem,
-  parentId: string,
-  id = "id",
-) {
+export function queryAncestors(array: IMenuItem[], current: IMenuItem, parentId: string, id = 'id') {
   const result = [current];
   const hashMap = new Map();
-  array.forEach((item) => hashMap.set(item[id], item));
+  array.forEach(item => hashMap.set(item[id], item));
 
   const getPath = (current: IMenuItem) => {
     const currentParentId = hashMap.get(current[id])[parentId];
@@ -117,7 +116,7 @@ export function queryAncestors(
  * @return  {string}   Return frist object when query success.
  */
 export function queryLayout(layouts: any, pathname: string) {
-  let result = "public";
+  let result = 'public';
 
   const isMatch = (regepx: RegExp) => {
     return regepx instanceof RegExp ? regepx.test(pathname) : pathMatchRegexp(regepx, pathname);
@@ -153,29 +152,31 @@ export function queryLayout(layouts: any, pathname: string) {
   return result;
 }
 
-export const maskCurrency = (value: string, maxLength = 12, radix = ",") => {
-  const currencyRegExp = new RegExp(
-    `(\\d{1,${maxLength - 3}})(,)?(\\d{2})`,
-    "g",
-  );
-  return value.replace(currencyRegExp, (match, p1, p2, p3) =>
-    [p1, p3].join(radix),
-  );
+export const maskCurrency = (value: string, maxLength = 12, radix = ',') => {
+  const currencyRegExp = new RegExp(`(\\d{1,${maxLength - 3}})(,)?(\\d{2})`, 'g');
+  return value.replace(currencyRegExp, (match, p1, p2, p3) => [p1, p3].join(radix));
 };
 
 export const parseFromUrl = (url: string) => {
-  if (url?.startsWith("?")) {
-    const query = url?.substring(1)
-    var value = parse(query)
-    if (typeof value?.from === "string") {
-      return value
+  if (url?.startsWith('?')) {
+    const query = url?.substring(1);
+    var value = parse(query);
+    if (typeof value?.from === 'string') {
+      return value;
     }
   }
-  return null
-}
+  return null;
+};
 
-export { default as Color } from "./theme";
-export { default as classnames } from "classnames";
-export { default as request } from "./request";
-export { default as config } from "./config";
-export { default as constants } from "./constants";
+export const colorize = (value: string) => {
+  return ansiConvertor
+    .toHtml(value)
+    .replace('&lt;mark&gt;', '<mark>')
+    .replace('&lt;/mark&gt;', '</mark>');
+};
+
+export { default as Color } from './theme';
+export { default as classnames } from 'classnames';
+export { default as request } from './request';
+export { default as config } from './config';
+export { default as constants } from './constants';

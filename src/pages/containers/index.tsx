@@ -10,13 +10,10 @@ import ContainerCard from './components/ContainerCard';
 @connect<IConnectState>(({ app, dashboard, loading }: IConnectState) => ({ app, dashboard, loading }))
 export default class Dashboard extends React.PureComponent<IConnectState> {
   render() {
-    const { dashboard } = this.props;
+    const { dashboard, loading } = this.props;
     const { listContainer } = dashboard;
     return (
-      <Page
-        // loading={loading.models.dashboard && sales.length === 0}
-        className={styles.dashboard}
-      >
+      <Page loading={loading.effects['getListContainer']} className={styles.dashboard}>
         <Row gutter={24}>
           {listContainer?.map((item, index) => (
             <ContainerCard item={item} key={index} />

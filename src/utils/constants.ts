@@ -11,7 +11,7 @@ const menus: IMenus = [
   },
   {
     id: '2',
-    icon: 'docker',
+    faIcon: 'fab fa-docker',
     name: 'Containers',
     route: '/containers',
   },
@@ -19,7 +19,7 @@ const menus: IMenus = [
     id: '21',
     menuParentId: '-1',
     breadcrumbParentId: '2',
-    name: 'Container Details',
+    name: 'Container Logs',
     route: '/containers/:id',
   },
 ];

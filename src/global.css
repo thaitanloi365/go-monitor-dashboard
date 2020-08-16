@@ -1,3 +1,5 @@
+@import './vendor/css/font-awesome.min.css';
+
 html,
 body,
 #root {
@@ -30,5 +32,5 @@ body {
   font-family: Averta;
   margin: 0;
   text-size-adjust: 100%;
-  color: #4B4B60;
+  color: #4b4b60;
 }

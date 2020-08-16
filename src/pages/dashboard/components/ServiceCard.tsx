@@ -34,9 +34,7 @@ const ServiceCard: React.SFC<IProps> = props => {
         <Col span={12}>
           {containerName}
           <h5>
-            <Ellipsis lines={1} style={{ marginTop: '7px' }} tooltip>
-              Created At: {createdAt}
-            </Ellipsis>
+            <Ellipsis style={{ marginTop: '7px' }}>Created At: {createdAt}</Ellipsis>
           </h5>
         </Col>
         <Col style={{ textAlign: 'right' }} span={12}>
@@ -44,17 +42,32 @@ const ServiceCard: React.SFC<IProps> = props => {
             {State.toUpperCase()}
           </Tag>
           <h5>
-            <Ellipsis lines={1} style={{ marginTop: '7px' }} tooltip>
-              {Status}
-            </Ellipsis>
+            <Ellipsis style={{ marginTop: '7px' }}>{Status}</Ellipsis>
           </h5>
         </Col>
       </Row>
     );
   };
+
+  const renderRow = (title: string, value: React.ReactText) => {
+    return (
+      <Row>
+        <Col sm={4} lg={6}>
+          {title}
+        </Col>
+        <Col sm={20} lg={18}>
+          <Ellipsis>{value}</Ellipsis>
+        </Col>
+      </Row>
+    );
+  };
   return (
-    <Col sm={24} md={24} lg={8}>
-      <Card style={{ width: '100%' }} title={renderHeader()}></Card>
+    <Col sm={24} md={24} lg={12} xl={8}>
+      <Card style={{ width: '100%' }} title={renderHeader()}>
+        {renderRow('ID', Id)}
+        {renderRow('Image Name', Image)}
+        {renderRow('Image ID', ImageID)}
+      </Card>
     </Col>
   );
 };
