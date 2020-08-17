@@ -1,40 +1,38 @@
-import {getListDockerContainer} from 'services/api/docker';
-import {IEffect, IModel} from 'types';
-import {pathMatchRegexp} from 'utils';
-import {withExtendModel} from 'utils/models';
+import { getListDockerContainer } from 'services/api/docker';
+import { IEffect, IModel } from 'types';
+import { pathMatchRegexp, constants } from 'utils';
+import { withExtendModel } from 'utils/models';
 
-export interface IDashboardModelState {
+export interface IContainersModelState {
   listContainer: Container[];
 }
 
-export interface IDrinkModelType extends IModel<IDashboardModelState> {
-  namespace: 'container';
+export interface IContainerModelType extends IModel<IContainersModelState> {
+  namespace: 'containers';
   effects: {
-    getListContainer: IEffect,
+    getListContainer: IEffect;
   };
 }
 
-const DashboardModel: IDrinkModelType = {
-  namespace: 'container',
+const ContainersModel: IContainerModelType = {
+  namespace: 'containers',
   state: {
     listContainer: [],
   },
   subscriptions: {
-    setup({dispatch, history}) {
-      history.listen(({pathname}) => {
-        if (pathMatchRegexp('/dashboard', pathname) ||
-            pathMatchRegexp('/', pathname)) {
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        if (pathMatchRegexp(constants.routeName.containers, pathname) || pathMatchRegexp('/', pathname)) {
           // @ts-ignore
           const payload = location.query;
-          dispatch({type: 'getListContainer'});
+          dispatch({ type: 'getListContainer' });
         }
       });
     },
   },
   effects: {
-    *
-    getListContainer({payload}, {put, call, select}) {
-      const {success, data} = yield call(getListDockerContainer, payload);
+    *getListContainer({ payload }, { put, call, select }) {
+      const { success, data } = yield call(getListDockerContainer, payload);
       if (success && data) {
         yield put({
           type: 'updateState',
@@ -45,8 +43,8 @@ const DashboardModel: IDrinkModelType = {
       } else {
         throw data;
       }
-    }
+    },
   },
 };
 
-export default withExtendModel(DashboardModel);
+export default withExtendModel(ContainersModel);

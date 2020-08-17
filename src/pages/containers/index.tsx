@@ -7,11 +7,11 @@ import { IConnectState } from 'types';
 import styles from './index.less';
 import ContainerCard from './components/ContainerCard';
 
-@connect<IConnectState>(({ app, dashboard, loading }: IConnectState) => ({ app, dashboard, loading }))
-export default class Dashboard extends React.PureComponent<IConnectState> {
+@connect<IConnectState>(({ app, containers, loading }: IConnectState) => ({ app, containers, loading }))
+export default class Containers extends React.PureComponent<IConnectState> {
   render() {
-    const { dashboard, loading } = this.props;
-    const { listContainer } = dashboard;
+    const { containers, loading } = this.props;
+    const { listContainer } = containers;
     return (
       <Page loading={loading.effects['getListContainer']} className={styles.dashboard}>
         <Row gutter={24}>

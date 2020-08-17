@@ -3,24 +3,24 @@ import { IEffect, IModel } from 'types';
 import { pathMatchRegexp } from 'utils';
 import { withExtendModel } from 'utils/models';
 
-export interface IDashboardModelState {
+export interface IHealthCheckModelState {
   listContainer: Container[];
 }
 
-export interface IDrinkModelType extends IModel<IDashboardModelState> {
-  namespace: 'dashboard';
+export interface IHealthCheckModelType extends IModel<IHealthCheckModelState> {
+  namespace: 'healthCheck';
   effects: { listContainer: IEffect };
 }
 
-const DashboardModel: IDrinkModelType = {
-  namespace: 'dashboard',
+const HealthCheckModel: IHealthCheckModelType = {
+  namespace: 'healthCheck',
   state: {
     listContainer: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathMatchRegexp('/dashboard', pathname) || pathMatchRegexp('/', pathname)) {
+        if (pathMatchRegexp('/healthcheck', pathname)) {
           // @ts-ignore
           const payload = location.query;
           dispatch({ type: 'listContainer' });
@@ -45,4 +45,4 @@ const DashboardModel: IDrinkModelType = {
   },
 };
 
-export default withExtendModel(DashboardModel);
+export default withExtendModel(HealthCheckModel);
