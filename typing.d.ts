@@ -9,20 +9,20 @@ export interface IDisPatchProps {
 export type InferableComponentEnhancerWithProps<TInjectedProps, TNeedsProps> = <
   TComponent extends React.ComponentType<TInjectedProps & TNeedsProps>
 >(
-  component: TComponent,
+  component: TComponent
 ) => TComponent;
 
 export interface IConnectProps {
   <TStateProps = {}, TDispatchProps = {}, TOwnProps = {}>(
     mapStateToProps?: MapStateToPropsParam<TStateProps, TOwnProps, IConnectProps>,
-    mapDispatchToProps?: IDisPatchProps,
+    mapDispatchToProps?: IDisPatchProps
   ): InferableComponentEnhancerWithProps<TStateProps & TDispatchProps, TOwnProps>;
 
   <TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, TMergedProps = {}>(
     mapStateToProps?: MapStateToPropsParam<TStateProps, TOwnProps, IConnectProps>,
     mapDispatchToProps?: IDisPatchProps,
     mergeProps?: MergeProps<TStateProps, TDispatchProps, TOwnProps, TMergedProps>,
-    options?: Options<TStateProps, TOwnProps, TMergedProps>,
+    options?: Options<TStateProps, TOwnProps, TMergedProps>
   ): InferableComponentEnhancerWithProps<TMergedProps, TOwnProps>;
 }
 

@@ -16,7 +16,7 @@ export default class Containers extends React.PureComponent<IConnectState> {
       <Page loading={loading.effects['getListContainer']} className={styles.dashboard}>
         <Row gutter={24}>
           {listContainer?.map((item, index) => (
-            <ContainerCard item={item} key={index} />
+            <ContainerCard item={item} key={item.Id || index} />
           ))}
         </Row>
       </Page>

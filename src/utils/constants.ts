@@ -23,7 +23,6 @@ const menus: IMenus = [
   {
     id: '2',
     icon: 'smile',
-    faIcon: 'fab fa-docker',
     name: 'Healthcheck',
     route: routeName.healthcheck,
   },

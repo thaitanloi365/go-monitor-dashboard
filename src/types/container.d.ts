@@ -1,17 +1,17 @@
-interface Container {
+interface IContainer {
   Id: string;
   Names: string[];
   Image: string;
   ImageID: string;
   Command: string;
   Created: number;
-  Ports: (Port|Ports2)[];
+  Ports: (Port | Ports2)[];
   Labels: Labels;
   State: string;
   Status: string;
   HostConfig: HostConfig;
   NetworkSettings: NetworkSettings;
-  Mounts: (Mount|Mounts2|Mounts3)[];
+  Mounts: (Mount | Mounts2 | Mounts3)[];
 }
 
 interface Mounts3 {

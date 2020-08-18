@@ -6,7 +6,7 @@ import { DropOption } from 'components';
 import { router } from 'utils';
 import styles from './ContainerCard.less';
 interface IProps {
-  item: Container;
+  item: IContainer;
 }
 const ContainerCard: React.SFC<IProps> = props => {
   const { item } = props;
@@ -73,14 +73,16 @@ const ContainerCard: React.SFC<IProps> = props => {
     container: (
       <React.Fragment>
         {containerContent.map((item, index) => (
-          <Row style={{ marginBottom: '5px' }}>
-            <Col lg={2} xs={5}>
-              {item.title}
-            </Col>
-            <Col lg={22} xs={19}>
-              <Ellipsis tooltip>{item.value}</Ellipsis>
-            </Col>
-          </Row>
+          <React.Fragment key={index}>
+            <Row style={{ marginBottom: '5px' }}>
+              <Col lg={2} xs={5}>
+                {item.title}
+              </Col>
+              <Col lg={22} xs={19}>
+                <Ellipsis tooltip>{item.value}</Ellipsis>
+              </Col>
+            </Row>
+          </React.Fragment>
         ))}
       </React.Fragment>
     ),
@@ -125,7 +127,7 @@ const ContainerCard: React.SFC<IProps> = props => {
     hosts: (
       <React.Fragment>
         {Object.keys(HostConfig).map((key, index) => (
-          <React.Fragment>
+          <React.Fragment key={index}>
             <Row style={{ marginBottom: '5px' }} type="flex" key={index}>
               <Col lg={2} xs={8}>
                 {key}
@@ -161,7 +163,7 @@ const ContainerCard: React.SFC<IProps> = props => {
     labels: (
       <React.Fragment>
         {Object.keys(Labels).map((key, index) => (
-          <React.Fragment>
+          <React.Fragment key={index}>
             <Row style={{ marginBottom: '5px' }} type="flex" key={index}>
               <Col xl={8} lg={12} sm={24}>
                 {key}

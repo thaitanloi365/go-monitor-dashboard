@@ -40,7 +40,6 @@ export default class SiderMenu extends PureComponent<Partial<IMenuProps>> {
   };
 
   generateMenus = (data: any) => {
-    console.log('*** data', data);
     return data.map((item: any) => {
       if (item.children) {
         return (

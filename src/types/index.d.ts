@@ -1,5 +1,6 @@
 import { MenuDataItem } from '@ant-design/pro-layout';
 import { FormComponentProps } from 'antd/lib/form/Form';
+import { ModalProps } from 'antd/lib/modal/Modal';
 import { Effect } from 'dva';
 import { Effect, Subscription } from 'dva';
 import { IAppModelState } from 'models/app';
@@ -24,6 +25,7 @@ export type ISubscription = Subscription;
 export type IGlobalModelState = GlobalModelState;
 
 export interface IFormProps extends FormComponentProps {}
+export interface IModalProps extends ModalProps {}
 
 export interface IModel<T> {
   namespace?: string;
@@ -49,7 +51,7 @@ export interface IConnectState extends Partial<IConnectProps> {
   app?: IAppModelState;
   containers?: IContainersModelState;
   containerDetail?: IContainerDetailModelState;
-  healthCheck?: IHealthCheckModelState;
+  healthcheck?: IHealthCheckModelState;
   loading?: ILoadingState;
   login?: ILoginModelType;
 }

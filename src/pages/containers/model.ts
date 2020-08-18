@@ -4,7 +4,7 @@ import { pathMatchRegexp, constants } from 'utils';
 import { withExtendModel } from 'utils/models';
 
 export interface IContainersModelState {
-  listContainer: Container[];
+  listContainer: IContainer[];
 }
 
 export interface IContainerModelType extends IModel<IContainersModelState> {
