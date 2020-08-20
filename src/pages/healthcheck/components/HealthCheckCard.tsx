@@ -9,7 +9,7 @@ interface IProps {
 }
 const HealthCheckCard: React.SFC<IProps> = props => {
   const { item } = props;
-  const {} = item;
+  const { tag, endpoint, interval } = item;
 
   // const name = Names?.[0] || '';
   // const statusColor = State === 'running' ? '#108ee9' : '#f50';
@@ -19,7 +19,7 @@ const HealthCheckCard: React.SFC<IProps> = props => {
     return (
       <Row>
         <Col span={12}>
-          {/* {containerName} */}
+          {tag}
           <h5>{/* <Ellipsis style={{ marginTop: '7px' }}>Created At: {createdAt}</Ellipsis> */}</h5>
         </Col>
         <Col style={{ textAlign: 'right' }} span={12}>
@@ -47,9 +47,9 @@ const HealthCheckCard: React.SFC<IProps> = props => {
   return (
     <Col sm={24} md={24} lg={12} xl={8}>
       <Card style={{ width: '100%' }} title={renderHeader()}>
-        {/* {renderRow('ID', Id)}
-        {renderRow('Image Name', Image)}
-        {renderRow('Image ID', ImageID)} */}
+        {renderRow('Tag', tag)}
+        {renderRow('Endpoint', Image)}
+        {renderRow('Image ID', ImageID)}
       </Card>
     </Col>
   );
